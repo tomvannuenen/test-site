@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to My Awesome 2000s Website!</title>
+    <style>
+        body {
+            background-color: #000000;
+            font-family: "Comic Sans MS", cursive;
+            color: #ff00ff;
+            text-align: center;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        #starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .container {
+            width: 800px;
+            margin: 0 auto;
+            background-color: #ffff00;
+            border: 5px solid #ff0000;
+            padding: 20px;
+            position: relative;
+        }
+        .header {
+            background-color: #0000ff;
+            color: #ffffff;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .marquee {
+            background-color: #ff0000;
+            color: #ffffff;
+            padding: 10px;
+            margin: 20px 0;
+        }
+        .counter {
+            background-color: #000000;
+            color: #00ff00;
+            padding: 5px;
+            display: inline-block;
+            font-family: "Courier New", monospace;
+        }
+        .guestbook {
+            background-color: #ffffff;
+            border: 3px dashed #0000ff;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        td {
+            border: 2px solid #ff00ff;
+            padding: 10px;
+        }
+        .construction {
+            animation: blink 1s infinite;
+        }
+        .cursor-trail {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ff00ff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.5;
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        .rainbow-text {
+            background: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8f00ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: rainbow 5s linear infinite;
+        }
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="starfield"></canvas>
+    <div class="container">
+        <div class="header">
+            <h1 class="rainbow-text">🌟 Welcome to My Awesome Website! 🌟</h1>
+            <img src="https://web.archive.org/web/20090829095850/http://geocities.com/Area51/Corridor/5177/under_construction.gif" alt="Under Construction" class="construction">
+            <p class="construction">🚧 This site is under construction! 🚧</p>
+        </div>
+
+        <marquee class="marquee" scrollamount="5">
+            🎉 Welcome to my totally awesome website! Don't forget to sign my guestbook! 🎉
+        </marquee>
+
+        <table>
+            <tr>
+                <td>
+                    <h2>About Me</h2>
+                    <p>Hi! I'm a cool webmaster who loves creating awesome websites!</p>
+                    <img src="https://web.archive.org/web/20090829095850/http://geocities.com/Area51/Corridor/5177/email.gif" alt="Email me!">
+                </td>
+                <td>
+                    <h2>My Favorite Links</h2>
+                    <ul style="text-align: left;">
+                        <li><a href="https://web.archive.org/web/20090829095850/http://geocities.com">GeoCities</a></li>
+                        <li><a href="https://web.archive.org/web/20090829095850/http://angelfire.com">Angelfire</a></li>
+                        <li><a href="https://web.archive.org/web/20090829095850/http://tripod.com">Tripod</a></li>
+                    </ul>
+                    <img src="https://web.archive.org/web/20090829095850/http://geocities.com/Area51/Corridor/5177/new.gif" alt="New!">
+                </td>
+            </tr>
+        </table>
+
+        <div class="guestbook">
+            <h2>📝 Sign My Guestbook! 📝</h2>
+            <form>
+                <p>Name: <input type="text" name="name"></p>
+                <p>Email: <input type="text" name="email"></p>
+                <p>Message:<br>
+                <textarea name="message" rows="4" cols="50"></textarea></p>
+                <input type="submit" value="Sign Guestbook!">
+            </form>
+        </div>
+
+        <div>
+            <p>You are visitor number:</p>
+            <div class="counter">000001337</div>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <img src="https://web.archive.org/web/20090829095850/http://geocities.com/Area51/Corridor/5177/netscape.gif" alt="Best viewed in Netscape Navigator">
+        </div>
+    </div>
+
+    <script>
+        // Starfield effect
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const stars = [];
+        for (let i = 0; i < 100; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 2,
+                speed: Math.random() * 2
+            });
+        }
+
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            stars.forEach(star => {
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                star.y += star.speed;
+                if (star.y > canvas.height) {
+                    star.y = 0;
+                    star.x = Math.random() * canvas.width;
+                }
+            });
+            
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Cursor trail effect
+        const trail = [];
+        const maxTrail = 20;
+
+        document.addEventListener('mousemove', (e) => {
+            trail.push({ x: e.clientX, y: e.clientY });
+            if (trail.length > maxTrail) trail.shift();
+            
+            // Remove old trail elements
+            const oldTrails = document.querySelectorAll('.cursor-trail');
+            oldTrails.forEach(t => t.remove());
+            
+            // Create new trail elements
+            trail.forEach((pos, i) => {
+                const dot = document.createElement('div');
+                dot.className = 'cursor-trail';
+                dot.style.left = pos.x + 'px';
+                dot.style.top = pos.y + 'px';
+                dot.style.opacity = (i / maxTrail).toString();
+                document.body.appendChild(dot);
+            });
+        });
+
+        // Welcome sound effect
+        window.addEventListener('load', () => {
+            const audio = new Audio('https://web.archive.org/web/20090829095850/http://geocities.com/Area51/Corridor/5177/welcome.wav');
+            audio.play().catch(() => {
+                // Ignore autoplay restrictions
+            });
+        });
+    </script>
+</body>
+</html> 
