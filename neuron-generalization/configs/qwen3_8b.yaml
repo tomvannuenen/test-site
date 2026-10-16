@@ -1,0 +1,35 @@
+# Qwen3-8B: 36 layers, d_mlp = 12288.
+# bf16 weights ~16.4 GB: needs >= 24 GB unified memory / GPU memory.
+seed: 1234
+model:
+  name: Qwen/Qwen3-8B
+  revision: main            # pin a commit SHA for a publishable run
+  dtype: bfloat16
+  device: auto              # cuda > mps > cpu
+  layer_fractions: [0.15, 0.5, 0.85]   # -> layers 5, 18, 30 of 36
+corpus:
+  source: hf_mixture        # 8 genres, see neurogen/corpus.py
+  tokens_per_genre: 10000   # ~80k tokens total
+  max_tokens_per_doc: 256
+  min_tokens_per_doc: 24
+  heldout_fraction: 0.25
+  cache_dir: cache/corpus
+discovery:
+  batch_size: 2
+  top_k: 40
+  context_window: 24
+  n_candidates: 24          # 8 per layer, selected by the heterogeneity rule
+  n_random_baseline: 1      # + 1 random selective neuron per layer
+  min_selectivity: 6.0
+  dedupe_docs: true
+evaluation:
+  n_test_neurons: 8         # seeded random subset for Phase 3
+  active_threshold_frac: 0.25
+  min_discriminating_items: 8
+  support_balanced_acc: 0.75
+  neither_balanced_acc: 0.65
+  n_bootstrap: 2000
+intervention:
+  n_random_controls: 50
+  scale_factors: [0.0, 0.5, 2.0, 4.0]
+  control_match_tolerance: 0.25

@@ -1,0 +1,9 @@
+torch>=2.3
+transformers>=4.51
+numpy
+pyyaml
+matplotlib
+pandas
+pyarrow
+pytest
+jupyter

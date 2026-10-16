@@ -1,0 +1,24 @@
+# Fast end-to-end check on real weights (~1.2 GB download, runs on CPU in minutes).
+# Same Qwen3 architecture as 4B/8B; NOT a substitute for the pilot model.
+seed: 1234
+model:
+  name: Qwen/Qwen3-0.6B
+  dtype: float32
+  layer_fractions: [0.15, 0.5, 0.85]
+corpus:
+  source: local
+  local_path: data/example/example_corpus.jsonl
+  tokens_per_genre: 100000   # i.e. use everything in the local file
+  max_tokens_per_doc: 256
+  min_tokens_per_doc: 8
+  heldout_fraction: 0.25
+discovery:
+  top_k: 12
+  context_window: 12
+  n_candidates: 6
+  n_random_baseline: 1
+  min_selectivity: 3.0
+evaluation:
+  n_test_neurons: 3
+intervention:
+  n_random_controls: 20
